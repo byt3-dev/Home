@@ -3,84 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byte Developing | Modern Digital Solutions</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <!-- Inter Font -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <title>Byte Developing | Terminal</title>
+    
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
     <style>
         :root {
-            --bg: #0a0a0c;
-            --accent: #3b82f6;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-            --text: #f3f4f6;
+            /* High-contrast Green/Black Theme */
+            --bg: #050505;
+            --accent: #00ff41; /* Classic Matrix Green */
+            --accent-dim: rgba(0, 255, 65, 0.15);
+            --border: #003b00;
+            --text: #00ff41;
+            --text-dim: #008f11;
         }
+
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
+
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 2rem;
         }
+
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid var(--border);
             padding: 1.5rem 0;
         }
+
         .logo {
             font-weight: 700;
             font-size: 1.5rem;
-            letter-spacing: -1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px var(--accent);
         }
+
         .logo span {
-            color: var(--accent);
+            color: #fff;
+            background: var(--accent);
+            padding: 0 5px;
+            margin-left: 2px;
+            color: #000;
         }
-        nav {
-            list-style: none;
+
+        /* Terminal Component */
+        .terminal-window {
+            background: rgba(0, 10, 0, 0.8);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            margin-top: 3rem;
+            text-align: left;
+            box-shadow: 0 0 20px var(--accent-dim);
+            min-height: 200px;
         }
-        nav img {
-            width: 32px;
-            height: 32px;
+
+        .terminal-header {
+            background: var(--accent);
+            color: #000;
+            padding: 5px 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
+
+        #console-output {
+            padding: 20px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background: var(--accent);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
         footer {
             text-align: center;
             padding: 4rem 0;
-            opacity: 0.5;
+            color: var(--text-dim);
+            font-size: 0.8rem;
         }
-        footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
+
+        a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+        a:hover { border-bottom: 1px solid var(--accent); }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">Byte<span>Developing</span></div>
-            <nav>
-                <li><img src="favicon.ico" alt="Logo"></li>
-            </nav>
+            <div class="logo">Byte<span>DEV</span></div>
+            <div style="font-size: 0.8rem;">[ STATUS: OPERATIONAL ]</div>
         </header>
 
-        <!-- Placeholder for your Hero/Grid content -->
-        <main style="text-align: center; padding: 5rem 0;">
-            <h1>Modern Digital Solutions</h1>
-            <p>Building the future, one byte at a time.</p>
+        <main style="text-align: center; padding: 3rem 0;">
+            <h1 style="letter-spacing: 4px;">SYSTEM_OVERRIDE</h1>
+            <p style="color: var(--text-dim);">// Building the future, one byte at a time.</p>
+            
+            <div class="terminal-window">
+                <div class="terminal-header">root@byt3-dev: ~/core_services</div>
+                <div id="console-output">
+                    Initializing Python 3.11 kernel...<br>
+                </div>
+            </div>
         </main>
 
         <footer>
-            &copy; 2024 Byte Developing.<br>
-            Follow our progress on <a href="https://github.com/byt3-dev" target="_blank">GitHub</a>.
+            &copy; 2024 Byte Developing. <br>
+            <a href="https://github.com/byt3-dev" target="_blank">ACCESS_GITHUB_REPOS</a>
         </footer>
     </div>
+
+    <py-script>
+        import asyncio
+        from datetime import datetime
+        import random
+
+        async def run_terminal():
+            output = Element("console-output")
+            
+            logs = [
+                "Checking encryption protocols...",
+                "Loading neural modules...",
+                "Syncing repository data...",
+                "Bypassing firewalls... (Just kidding)",
+                "System health: 100%",
+                "Ready for deployment."
+            ]
+
+            for log in logs:
+                # Add a timestamped log line
+                ts = datetime.now().strftime("%H:%M:%S")
+                current_html = output.element.innerHTML
+                new_line = f"<div>[{ts}] {log}</div>"
+                output.element.innerHTML = current_html + new_line
+                
+                # Wait for a random interval to simulate "processing"
+                await asyncio.sleep(random.uniform(0.5, 1.5))
+            
+            # Add final cursor
+            output.element.innerHTML += '<div style="margin-top:10px;">byte_dev@guest:~$ <span class="cursor"></span></div>'
+
+        # Execute the async function
+        asyncio.ensure_future(run_terminal())
+    </py-script>
 </body>
 </html>
 
