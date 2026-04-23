@@ -3,164 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byte Developing | Terminal</title>
+    <title>Byte Developing | Interactive</title>
     
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 
     <style>
         :root {
-            /* High-contrast Green/Black Theme */
-            --bg: #050505;
-            --accent: #00ff41; /* Classic Matrix Green */
-            --accent-dim: rgba(0, 255, 65, 0.15);
-            --border: #003b00;
-            --text: #00ff41;
-            --text-dim: #008f11;
+            --bg: #0a0a0a;
+            --accent: #10b981; /* Modern Emerald */
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
         }
 
         body {
             background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            border-bottom: 1px solid var(--border);
-            padding: 1.5rem 0;
+            min-height: 100vh;
         }
 
-        .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            text-shadow: 0 0 8px var(--accent);
-        }
+        .container { max-width: 900px; width: 100%; padding: 2rem; }
 
-        .logo span {
-            color: #fff;
-            background: var(--accent);
-            padding: 0 5px;
-            margin-left: 2px;
-            color: #000;
-        }
+        .header { text-align: left; margin-bottom: 3rem; border-left: 3px solid var(--accent); padding-left: 1rem; }
+        .header h1 { margin: 0; font-size: 1.5rem; letter-spacing: -1px; }
 
-        /* Terminal Component */
-        .terminal-window {
-            background: rgba(0, 10, 0, 0.8);
-            border: 1px solid var(--accent);
-            border-radius: 4px;
-            margin-top: 3rem;
-            text-align: left;
-            box-shadow: 0 0 20px var(--accent-dim);
-            min-height: 200px;
+        /* The Interactive Terminal */
+        .terminal {
+            background: #111;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .terminal-header {
-            background: var(--accent);
-            color: #000;
-            padding: 5px 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            background: #1a1a1a;
+            padding: 10px 15px;
+            display: flex;
+            gap: 6px;
+            border-bottom: 1px solid var(--border);
         }
 
-        #console-output {
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #333; }
+        .dot.green { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+
+        #output {
             padding: 20px;
-            font-size: 0.9rem;
-            line-height: 1.4;
+            height: 250px;
+            overflow-y: auto;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            color: #d1d5db;
+            background: #000;
         }
 
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2rem;
-            background: var(--accent);
-            animation: blink 1s infinite;
-            vertical-align: middle;
+        .input-area {
+            display: flex;
+            background: #000;
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
         }
 
-        @keyframes blink { 50% { opacity: 0; } }
-
-        footer {
-            text-align: center;
-            padding: 4rem 0;
-            color: var(--text-dim);
-            font-size: 0.8rem;
+        .prompt { color: var(--accent); margin-right: 10px; font-family: monospace; }
+        
+        input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            outline: none;
         }
 
-        a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
-        a:hover { border-bottom: 1px solid var(--accent); }
+        .hint { margin-top: 1rem; color: var(--text-dim); font-size: 0.8rem; text-align: center; }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <header>
-            <div class="logo">Byte<span>DEV</span></div>
-            <div style="font-size: 0.8rem;">[ STATUS: OPERATIONAL ]</div>
-        </header>
+        <div class="header">
+            <h1>BYTE<span>DEVELOPING</span></h1>
+            <p style="color: var(--text-dim);">The Python-First Development Laboratory.</p>
+        </div>
 
-        <main style="text-align: center; padding: 3rem 0;">
-            <h1 style="letter-spacing: 4px;">SYSTEM_OVERRIDE</h1>
-            <p style="color: var(--text-dim);">// Building the future, one byte at a time.</p>
-            
-            <div class="terminal-window">
-                <div class="terminal-header">root@byt3-dev: ~/core_services</div>
-                <div id="console-output">
-                    Initializing Python 3.11 kernel...<br>
-                </div>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="dot green"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <span style="margin-left: 10px; font-size: 11px; color: #666; font-family: monospace;">python3.11 --wasm</span>
             </div>
-        </main>
+            
+            <div id="output">
+                <div>Welcome to ByteDev Interactive.</div>
+                <div style="color: var(--text-dim);">Try typing: <span style="color: #fff;">print(2 + 2)</span> or <span style="color: #fff;">import math; math.sqrt(16)</span></div>
+                <br>
+            </div>
 
-        <footer>
-            &copy; 2024 Byte Developing. <br>
-            <a href="https://github.com/byt3-dev" target="_blank">ACCESS_GITHUB_REPOS</a>
-        </footer>
+            <div class="input-area">
+                <span class="prompt">>>></span>
+                <input type="text" id="user-input" placeholder="Execute Python..." autofocus>
+            </div>
+        </div>
+
+        <p class="hint">Hit <strong>Enter</strong> to execute. Powered by PyScript & WebAssembly.</p>
     </div>
 
     <py-script>
-        import asyncio
-        from datetime import datetime
-        import random
+        from js import document, window
+        from pyodide.ffi import create_proxy
 
-        async def run_terminal():
-            output = Element("console-output")
-            
-            logs = [
-                "Checking encryption protocols...",
-                "Loading neural modules...",
-                "Syncing repository data...",
-                "Bypassing firewalls... (Just kidding)",
-                "System health: 100%",
-                "Ready for deployment."
-            ]
+        output_div = document.getElementById("output")
+        user_input = document.getElementById("user-input")
 
-            for log in logs:
-                # Add a timestamped log line
-                ts = datetime.now().strftime("%H:%M:%S")
-                current_html = output.element.innerHTML
-                new_line = f"<div>[{ts}] {log}</div>"
-                output.element.innerHTML = current_html + new_line
-                
-                # Wait for a random interval to simulate "processing"
-                await asyncio.sleep(random.uniform(0.5, 1.5))
-            
-            # Add final cursor
-            output.element.innerHTML += '<div style="margin-top:10px;">byte_dev@guest:~$ <span class="cursor"></span></div>'
+        def execute_python(event):
+            if event.key == "Enter":
+                code = user_input.value
+                if not code.strip():
+                    return
 
-        # Execute the async function
-        asyncio.ensure_future(run_terminal())
+                # Display the command
+                new_command = document.createElement("div")
+                new_command.innerHTML = f'<span style="color: #10b981">>>></span> {code}'
+                output_div.appendChild(new_command)
+
+                # Execute and catch results
+                try:
+                    # eval() for single expressions, exec() for statements
+                    # We'll try to evaluate it first to get a return value
+                    result = eval(code)
+                    if result is not None:
+                        res_div = document.createElement("div")
+                        res_div.style.color = "#94a3b8"
+                        res_div.innerText = f" {result}"
+                        output_div.appendChild(res_div)
+                except Exception as e:
+                    try:
+                        exec(code)
+                    except Exception as e2:
+                        err_div = document.createElement("div")
+                        err_div.style.color = "#ef4444"
+                        err_div.innerText = f" Error: {e2}"
+                        output_div.appendChild(err_div)
+
+                # Reset and scroll
+                user_input.value = ""
+                output_div.scrollTop = output_div.scrollHeight
+
+        # Create a proxy for the event listener
+        on_keydown = create_proxy(execute_python)
+        user_input.addEventListener("keydown", on_keydown)
     </py-script>
+
 </body>
 </html>
 
